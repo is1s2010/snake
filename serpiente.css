@@ -73,7 +73,7 @@ h1 {
 
 canvas {
     width: 100%;
-    max-width: 500px;
+    max-width: 600px; /* Cambiado de 500px a 600px para que encaje el nuevo tamaño */
     background: #000;
     border: 3px solid #ff00ff;
     border-radius: 16px;
@@ -81,7 +81,6 @@ canvas {
     display: block;
     margin: 0 auto 20px auto;
 }
-
 .controles {
     display: grid;
     grid-template-columns: repeat(3, 90px);
