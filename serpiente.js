@@ -9,11 +9,26 @@ let serpiente = [
   {x: 9, y: 6},
   {x: 9, y: 5}
 ];
+let intervaloSerpiente;
+let direccionActual = "derecha"; 
+
+let comida = { x: 5, y: 5 }; 
+let puntaje = 0;
 
 
 function limpiarCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
+
+function iniciarJuego() {
+  clearInterval(intervaloSerpiente);
+  intervaloSerpiente = setInterval(moverSerpiente, 300);
+}
+
+function pausarJuego() {
+  clearInterval(intervaloSerpiente);
+}
+
 
 function dibujarTablero() {
   ctx.strokeStyle = "#444"; 
@@ -45,6 +60,22 @@ function pintarSerpiente() {
   }
 }
 
+function moverSerpiente() {
+  if (direccionActual === "derecha") {
+    moverDerecha();
+  } else if (direccionActual === "izquierda") {
+    moverIzquierda();
+  } else if (direccionActual === "arriba") {
+    moverArriba();
+  } else if (direccionActual === "abajo") {
+    moverAbajo();
+  }
+  
+  atrapaComida();
+  
+  dibujarTodo();
+}
+
 function pintarParte(lineax, lineay, colorRelleno = "red") {
  
   const xReal = lineax * TAMANIO_CELDA; 
@@ -58,6 +89,10 @@ function pintarParte(lineax, lineay, colorRelleno = "red") {
   ctx.strokeRect(xReal, yReal, TAMANIO_CELDA, TAMANIO_CELDA);
 }
 
+function cambiarDireccion(direccion) {
+  direccionActual = direccion;
+}
+
 function moverDerecha() {
   let cabezaActual = serpiente[0];
   
@@ -67,18 +102,6 @@ function moverDerecha() {
   serpiente.pop();
 }
 
-function cambiarDireccion(direccion) {
-  if (direccion === "derecha") {
-    moverDerecha();
-  } else if (direccion === "izquierda") {
-    moverIzquierda();
-  } else if (direccion === "arriba") {
-    moverArriba();
-  } else if (direccion === "abajo") {
-    moverAbajo();
-  }
-  dibujarTodo();
-}
 
 function moverIzquierda() {
   let cabezaActual = serpiente[0];
@@ -101,9 +124,40 @@ function moverAbajo() {
   serpiente.pop();
 }
 
+//Comida
+
+function generarComida() {
+  let celdasX = canvas.width / TAMANIO_CELDA;
+  let celdasY = canvas.height / TAMANIO_CELDA;
+
+  comida.x = Math.floor(Math.random() * celdasX);
+  comida.y = Math.floor(Math.random() * celdasY);
+}
+
+function pintarComida() {
+  pintarParte(comida.x, comida.y, "#00ff00"); 
+}
+
+//Para la colision 
+
+function atrapaComida() {
+  let cabeza = serpiente[0];
+
+  if (cabeza.x === comida.x && cabeza.y === comida.y) {
+    puntaje++;
+    document.getElementById("puntaje").innerText = puntaje; 
+
+    let cola = serpiente[serpiente.length - 1];
+    
+    serpiente.push({ x: cola.x, y: cola.y });
+    generarComida();
+  }
+}
+
 function dibujarTodo() {
   limpiarCanvas();
   dibujarTablero();
+  pintarComida();
   pintarSerpiente();
   
   
