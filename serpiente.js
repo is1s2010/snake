@@ -27,9 +27,29 @@ function dibujarTablero() {
   }
 }
 
+function pintarParte(lineax, lineay, colorRelleno = "red") {
+ 
+  const xReal = lineax * TAMANIO_CELDA; 
+  const yReal = lineay * TAMANIO_CELDA;
+
+ 
+  ctx.fillStyle = colorRelleno;
+  ctx.fillRect(xReal, yReal, TAMANIO_CELDA, TAMANIO_CELDA);
+
+  ctx.strokeStyle = "green"; 
+  ctx.strokeRect(xReal, yReal, TAMANIO_CELDA, TAMANIO_CELDA);
+}
+
 function dibujarTodo() {
   limpiarCanvas();
-  dibujarTablero(); 
+  dibujarTablero();
+  
+  pintarParte(5,5);
+  pintarParte(10,2);
+  pintarParte(8,16);
+  pintarParte(16,8);
+  pintarParte(0,8);
+  pintarParte(16,16);
 }
 
 dibujarTodo();
