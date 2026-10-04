@@ -58,6 +58,49 @@ function pintarParte(lineax, lineay, colorRelleno = "red") {
   ctx.strokeRect(xReal, yReal, TAMANIO_CELDA, TAMANIO_CELDA);
 }
 
+function moverDerecha() {
+  let cabezaActual = serpiente[0];
+  
+  let nuevaCabeza = { x: cabezaActual.x + 1, y: cabezaActual.y };
+  
+  serpiente.unshift(nuevaCabeza);
+  serpiente.pop();
+}
+
+function cambiarDireccion(direccion) {
+  if (direccion === "derecha") {
+    moverDerecha();
+  } else if (direccion === "izquierda") {
+    moverIzquierda();
+  } else if (direccion === "arriba") {
+    moverArriba();
+  } else if (direccion === "abajo") {
+    moverAbajo();
+  }
+  dibujarTodo();
+}
+
+function moverIzquierda() {
+  let cabezaActual = serpiente[0];
+  let nuevaCabeza = { x: cabezaActual.x - 1, y: cabezaActual.y };
+  serpiente.unshift(nuevaCabeza);
+  serpiente.pop();
+}
+
+function moverArriba() {
+  let cabezaActual = serpiente[0];
+  let nuevaCabeza = { x: cabezaActual.x, y: cabezaActual.y - 1 };
+  serpiente.unshift(nuevaCabeza);
+  serpiente.pop();
+}
+
+function moverAbajo() {
+  let cabezaActual = serpiente[0];
+  let nuevaCabeza = { x: cabezaActual.x, y: cabezaActual.y + 1 };
+  serpiente.unshift(nuevaCabeza);
+  serpiente.pop();
+}
+
 function dibujarTodo() {
   limpiarCanvas();
   dibujarTablero();
